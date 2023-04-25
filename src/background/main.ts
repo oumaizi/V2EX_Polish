@@ -6,8 +6,8 @@ interface Message {
   colorScheme: 'dark' | 'light'
 }
 
-chrome.runtime.onMessage.addListener((message: Message) => {
-  void chrome.action.setIcon({
+browser.runtime.onMessage.addListener((message: Message) => {
+  void browser.browserAction.setIcon({
     path:
       message.colorScheme === 'dark'
         ? {
@@ -25,8 +25,8 @@ chrome.runtime.onMessage.addListener((message: Message) => {
   })
 })
 
-chrome.contextMenus.removeAll(() => {
-  chrome.contextMenus.create({
+browser.contextMenus.removeAll(() => {
+  browser.contextMenus.create({
     documentUrlPatterns: ['https://v2ex.com/*', 'https://www.v2ex.com/*'],
     contexts: ['page'],
     title: 'V2EX Polish',
@@ -34,7 +34,7 @@ chrome.contextMenus.removeAll(() => {
     id: Menu.Root,
   })
 
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     documentUrlPatterns: ['https://v2ex.com/t/*', 'https://www.v2ex.com/t/*'],
     contexts: ['page'],
     title: '解析本页 Base64',
@@ -42,10 +42,10 @@ chrome.contextMenus.removeAll(() => {
     parentId: Menu.Root,
   })
 
-  chrome.contextMenus.onClicked.addListener((info, tab) => {
+  browser.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === Menu.Decode) {
       if (tab?.id) {
-        void chrome.scripting.executeScript({
+        void browser.scripting.executeScript({
           target: { tabId: tab.id },
           files: ['scripts/decode-base64.min.js'],
         })
@@ -56,16 +56,16 @@ chrome.contextMenus.removeAll(() => {
 
 const checkInAlarmName = 'dailyCheckIn'
 
-chrome.alarms.get(checkInAlarmName, (alarm) => {
+browser.alarms.get(checkInAlarmName, (alarm) => {
   if (typeof alarm === 'undefined') {
-    // background 脚本无法持久运行，在 Chrome 中 5 分钟内会关闭连接，所以需要使用 alarm 来保持定时任务。
-    chrome.alarms.create(checkInAlarmName, {
+    // background 脚本无法持久运行，在 browser 中 5 分钟内会关闭连接，所以需要使用 alarm 来保持定时任务。
+    browser.alarms.create(checkInAlarmName, {
       periodInMinutes: 4.9,
     })
   }
 })
 
-chrome.alarms.onAlarm.addListener((alarm) => {
+browser.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === checkInAlarmName) {
     void getOptions(false).then((options) => {
       if (options.autoCheckIn.enabled) {

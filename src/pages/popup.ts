@@ -89,7 +89,7 @@ function loadSettings() {
     const PAT = $patInput.val()
 
     if (typeof PAT === 'string') {
-      chrome.storage.sync.set({ [StorageKey.API]: { pat: PAT } }, () => {
+      browser.storage.sync.set({ [StorageKey.API]: { pat: PAT } }, () => {
         const $submitBtn = $('.submit-btn')
         const submitText = $submitBtn.text()
         $submitBtn.text('保存成功').prop('disabled', true)
@@ -119,7 +119,7 @@ function loadSettings() {
 
   {
     $('#open-options').on('click', () => {
-      chrome.runtime.openOptionsPage()
+      browser.runtime.openOptionsPage()
     })
   }
 

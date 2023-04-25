@@ -2,7 +2,7 @@ import { StorageKey } from '../constants'
 import type { Options } from '../types'
 import { getOptions } from '../utils'
 
-chrome.storage.onChanged.addListener((changes, namespace) => {
+browser.storage.onChanged.addListener((changes, namespace) => {
   console.log(changes, `Storage namespace "${namespace}" changed.`)
 })
 
@@ -20,7 +20,7 @@ const saveOptions = async () => {
     },
   }
 
-  await chrome.storage.sync.set({
+  await browser.storage.sync.set({
     [StorageKey.Options]: currentOptions,
   })
 

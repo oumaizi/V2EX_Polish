@@ -101,7 +101,7 @@ export function getStorage(useCache = true): Promise<StorageSettings> {
       return resolve({ [StorageKey.Options]: defaultOptions })
     }
 
-    chrome.storage.sync
+    browser.storage.sync
       .get()
       .then((items: StorageItems) => {
         let data: StorageSettings

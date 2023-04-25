@@ -68,7 +68,7 @@ async function request<Data>(url: string, options?: RequestInit): Promise<DataWr
       reset: reset ? Number(reset) : undefined,
       remaining: remaining ? Number(remaining) : undefined,
     }
-    void chrome.storage.sync.set({ [StorageKey.API]: api })
+    void browser.storage.sync.set({ [StorageKey.API]: api })
   }
 
   const resultData: DataWrapper<Data> = await res.json()

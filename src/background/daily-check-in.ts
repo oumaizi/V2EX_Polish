@@ -27,7 +27,7 @@ export async function checkIn() {
     return
   }
 
-  const result: StorageItems = await chrome.storage.sync.get(StorageKey.Daily)
+  const result: StorageItems = await browser.storage.sync.get(StorageKey.Daily)
   const lastCheckInTime = result[StorageKey.Daily]?.lastCheckInTime
 
   if (lastCheckInTime) {
